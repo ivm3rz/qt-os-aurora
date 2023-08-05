@@ -21,6 +21,7 @@ private slots:
      void onEqualClicked();
      void onEraseClicked();
      void onBinaryOperatorClicked();
+     void onDelimiterClicked();
 
 private:
      QString binaryOperator( const QAbstractButton& ) const;

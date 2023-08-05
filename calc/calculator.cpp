@@ -32,6 +32,8 @@ Calculator::Calculator( QWidget* parent )
 
      connect( ui_->eraseButton, SIGNAL( clicked() ), this, SLOT( onEraseClicked() ) );
      connect( ui_->equalButton, SIGNAL( clicked() ), this, SLOT( onEqualClicked() ) );
+
+     connect( ui_->delimiterButton, SIGNAL( clicked() ), this, SLOT( onDelimiterClicked() ) );
 }
 
 
@@ -107,4 +109,21 @@ QString Calculator::binaryOperator( const QAbstractButton& button ) const
           return "-";
      }
      return button.text();
+}
+
+
+void Calculator::onDelimiterClicked()
+{
+     if( const auto button = qobject_cast< QAbstractButton* >( sender() ) )
+     {
+          static const auto delimiter = ".";
+
+          const auto display = ui_->display->text();
+
+          if( display.endsWith( delimiter ) )
+          {
+               return;
+          }
+          ui_->display->setText( ui_->display->text() +  delimiter );
+     }
 }
