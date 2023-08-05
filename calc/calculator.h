@@ -4,7 +4,10 @@
 
 #include <QtWidgets/QWidget>
 
+class QAbstractButton;
+
 namespace Ui { class Calculator; }
+
 
 class Calculator : public QWidget
 {
@@ -18,6 +21,9 @@ private slots:
      void onEqualClicked();
      void onEraseClicked();
      void onBinaryOperatorClicked();
+
+private:
+     QString binaryOperator( const QAbstractButton& ) const;
 
 private:
      std::unique_ptr< Ui::Calculator > ui_;

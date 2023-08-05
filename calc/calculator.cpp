@@ -1,4 +1,5 @@
 #include <calculator.h>
+
 #include <QtCore/QDebug>
 
 #include <boost/exception/diagnostic_information.hpp>
@@ -47,18 +48,19 @@ void Calculator::onDigitClicked()
      if( const auto clickedButton = qobject_cast< QAbstractButton* >( sender() ) )
      {
           const auto digitValue = clickedButton->text().toInt();
-          const auto isDisplayZero = ui_->display->text() == "0";
 
-          if( isDisplayZero && digitValue == 0 )
+          auto display = ui_->display->text();
+
+          if( display == "0" || display == exclamation )
           {
-               return;
+               ui_->display->setText( QString::number( digitValue ) );
           }
-          ui_->display->setText(
-               isDisplayZero
-                    ? QString::number( digitValue )
-                    : ui_->display->text() + QString::number( digitValue )
-               );
+          else
+          {
+               ui_->display->setText( ui_->display->text() + QString::number( digitValue ) );
+          }
      }
+     ui_->display->setToolTip( {} );
 }
 
 
@@ -84,8 +86,30 @@ void Calculator::onEraseClicked()
 
 void Calculator::onBinaryOperatorClicked()
 {
-     if( const auto clickedButton = qobject_cast< QAbstractButton* >( sender() ) )
+     if( const auto button = qobject_cast< QAbstractButton* >( sender() ) )
      {
-          ui_->display->setText( ui_->display->text() + clickedButton->text() );
+          if( ui_->display->text() == exclamation )
+          {
+               return;
+          }
+          ui_->display->setText( ui_->display->text() + binaryOperator( *button ) );
      }
+}
+
+
+QString Calculator::binaryOperator( const QAbstractButton& button ) const
+{
+     if( button.objectName() == "divideButton" )
+     {
+          return "/";
+     }
+     if( button.objectName() == "multiplyButton" )
+     {
+          return "*";
+     }
+     if( button.objectName() == "subtractButton" )
+     {
+          return "-";
+     }
+     return button.text();
 }
