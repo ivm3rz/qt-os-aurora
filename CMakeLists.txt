@@ -9,10 +9,9 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
-# Включаем Qt-кодогенерацию
-set(CMAKE_AUTOMOC ON)
-set(CMAKE_AUTORCC ON)
-set(CMAKE_AUTOUIC ON)
+set(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake)
+
+include(FetchContent)
 
 find_package(Qt5Widgets REQUIRED)
 message(STATUS "Found Qt widgets: ${Qt5Widgets_VERSION}")
