@@ -64,6 +64,10 @@ void Calculator::onDigitClicked()
 
 void Calculator::onEqualClicked() try
 {
+     if( ui_->display->text() == exclamation )
+     {
+          return;
+     }
      ui_->display->setText( QString::number( matheval::parse( ui_->display->text().toStdString() ) ) );
 }
 catch( const std::exception& e )
