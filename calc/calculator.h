@@ -22,6 +22,7 @@ private slots:
      void onEraseClicked();
      void onBinaryOperatorClicked();
      void onDelimiterClicked();
+     void onSqrtClicked();
 
 private:
      QString binaryOperator( const QAbstractButton& ) const;

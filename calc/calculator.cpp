@@ -34,6 +34,8 @@ Calculator::Calculator( QWidget* parent )
      connect( ui_->equalButton, SIGNAL( clicked() ), this, SLOT( onEqualClicked() ) );
 
      connect( ui_->delimiterButton, SIGNAL( clicked() ), this, SLOT( onDelimiterClicked() ) );
+
+     connect( ui_->sqrtButton, SIGNAL( clicked() ), this, SLOT( onSqrtClicked() ) );
 }
 
 
@@ -130,4 +132,14 @@ void Calculator::onDelimiterClicked()
           }
           ui_->display->setText( ui_->display->text() +  delimiter );
      }
+}
+
+
+void Calculator::onSqrtClicked()
+{
+     if( ui_->display->text() == exclamation )
+     {
+          return;
+     }
+     ui_->display->setText( "sqrt(" + ui_->display->text() + ")" );
 }
