@@ -1,9 +1,5 @@
 #include <calculator.h>
 
-#include <QtCore/QDebug>
-
-#include <boost/exception/diagnostic_information.hpp>
-
 #include <matheval.hpp>
 
 #include <ui_calculator.h>
@@ -70,7 +66,6 @@ void Calculator::onEqualClicked() try
 }
 catch( const std::exception& e )
 {
-     qDebug() << "exception: " << boost::diagnostic_information( e ).c_str();
      ui_->display->setText( exclamation );
      ui_->display->setToolTip( e.what() );
 }
