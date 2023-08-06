@@ -7,7 +7,7 @@
 int main( int argc, char *argv[] )
 {
      QApplication app{ argc, argv };
-     QDialogButtonBox dlg{ QDialogButtonBox::Cancel };
+     QDialogButtonBox dlg;
      auto actionButton = dlg.addButton( "Загрузка", QDialogButtonBox::ActionRole );
      auto progress = new ProgressWidget( &dlg, "Загрузка", { "", ".", "..", "..." }, false );
 
@@ -16,7 +16,6 @@ int main( int argc, char *argv[] )
           , &QPushButton::clicked
           , [ progress ]
           {
-               progress->setTextAnimationSpeedFraction( 5 );
                progress->startAnimation();
           }
      );

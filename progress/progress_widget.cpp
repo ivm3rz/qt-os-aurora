@@ -54,7 +54,8 @@ ProgressWidget::ProgressWidget(
      , text_{ text }
      , textFrames_{ textAnimation }
      , textPaintFraction_( 5 )
-     , frames_( 40 )
+     , frames_( 0 )
+     , updateInterval_( 40 )
      , ringR_( 22 )
      , ringW_( 18 )
      , delayStart_( 1890 )
@@ -154,16 +155,18 @@ void ProgressWidget::startAnimation()
      {
           return;
      }
-     delete timer_;
-     timer_ = new QTimer( this );
-     connect( timer_, &QTimer::timeout, this, &ProgressWidget::timerTimeout );
      prepareAndShow();
 
+     if( !timer_ )
+     {
+          timer_ = new QTimer( this );
+          connect( timer_, &QTimer::timeout, this, &ProgressWidget::timerTimeout );
+     }
      if( delayStart_ )
      {
           startDelayTimer();
      }
-     timer_->start( frames_ );
+     timer_->start( updateInterval_ );
      update();
 
      setAnimationState( true );
@@ -182,8 +185,6 @@ void ProgressWidget::endAnimation()
      if( timer_ )
      {
           timer_->stop();
-          timer_->deleteLater();
-          timer_ = nullptr;
      }
 }
 
