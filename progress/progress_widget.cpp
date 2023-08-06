@@ -68,8 +68,6 @@ ProgressWidget::ProgressWidget(
      , isAnimatedNow_( false )
      , timer_( nullptr )
      , discreteness_( 2.5 )
-     , empty_( false )
-     , focusAfter_( QApplication::focusWidget() )
      , delayTimer_( nullptr )
 {
      Q_ASSERT( parent );
@@ -84,12 +82,169 @@ ProgressWidget::ProgressWidget(
 
      setColor( Qt::white, Color::Text );
      setAutoFillBackground( false );
+
+     if( doStart && parent )
+     {
+          startAnimation();
+     }
+     else
+     {
+          setVisible( false );
+     }
 }
 
 
-void ProgressWidget::paintEvent( QPaintEvent* e )
+ProgressWidget::~ProgressWidget()
 {
-     Q_UNUSED( e );
+     endAnimation();
+}
+
+
+void ProgressWidget::setColor( const QColor& color, Color colorType )
+{
+     switch( colorType )
+     {
+          case Color::Start:
+               startColor_ = color;
+               break;
+
+          case Color::End:
+               endColor_ = color;
+               break;
+
+          case Color::Text:
+          {
+               QPalette pal = palette();
+               pal.setColor( QPalette::Text, color );
+               setPalette( pal );
+          }
+          break;
+
+          case Color::Background:
+               backgroundColor_ = color;
+               break;
+     }
+}
+
+
+void ProgressWidget::setMode( const Mode mode )
+{
+     mode_ = mode;
+}
+
+
+void ProgressWidget::setRingRadius( const int radius )
+{
+     ringR_ = radius;
+}
+
+
+void ProgressWidget::setRingWidth( const int width )
+{
+     ringW_ = width;
+}
+
+
+void ProgressWidget::setTextAnimationSpeedFraction( const int textPaintFraction )
+{
+     textPaintFraction_ = textPaintFraction ? textPaintFraction : 1;
+}
+
+
+void ProgressWidget::startAnimation()
+{
+     if( isAnimatedNow_ )
+     {
+          return;
+     }
+     delete timer_;
+     timer_ = new QTimer( this );
+     connect( timer_, &QTimer::timeout, this, &ProgressWidget::timerTimeout );
+     prepareAndShow();
+
+     if( delayStart_ )
+     {
+          startDelayTimer();
+     }
+     timer_->start( frames_ );
+     update();
+
+     setAnimationState( true );
+}
+
+
+void ProgressWidget::endAnimation( bool doSelfDelete /*= false*/ )
+{
+     setAnimationState( false );
+     hide();
+
+     delete delayTimer_;
+     delayTimer_ = nullptr;
+
+     if( timer_ )
+     {
+          timer_->stop();
+          timer_->deleteLater();
+          timer_ = nullptr;
+     }
+     if( doSelfDelete )
+     {
+          deleteLater();
+     }
+}
+
+
+void ProgressWidget::setAnimationState( const bool doAnimate )
+{
+     if( doAnimate == isAnimatedNow_ )
+     {
+          return;
+     }
+     isAnimatedNow_ = doAnimate;
+     emit animateStateChanged( isAnimatedNow_ );
+}
+
+
+bool ProgressWidget::eventFilter( QObject* filtered, QEvent* e )
+{
+     Q_UNUSED( filtered );
+
+     if( !isAnimatedNow_ )
+     {
+          return false;
+     }
+     if( e )
+     {
+          switch( e->type() )
+          {
+               case QEvent::Resize:
+                    resize( static_cast< QResizeEvent* >( e )->size() );
+                    setFocus();
+                    return false;
+
+               case QEvent::KeyPress:
+                    keyPressEvent( static_cast< QKeyEvent* >( e ) );
+                    setFocus();
+                    return true;
+
+               case QEvent::MouseMove:
+               case QEvent::MouseButtonDblClick:
+               case QEvent::MouseButtonPress:
+               case QEvent::MouseButtonRelease:
+                    setFocus();
+                    return true;
+
+               default:
+                    break;
+          }
+     }
+     return false;
+}
+
+
+void ProgressWidget::paintEvent( QPaintEvent* event )
+{
+     Q_UNUSED( event );
 
      QPainter painter{ this };
      painter.setRenderHint( QPainter::Antialiasing );
@@ -129,11 +284,6 @@ void ProgressWidget::paintEvent( QPaintEvent* e )
           , height() - margins_.top() - margins_.bottom()
           , bg
      );
-
-     if( empty_ )
-     {
-          return;
-     }
      const qreal showDecorationOpacity = .55;
 
      if( p < showDecorationOpacity )
@@ -221,4 +371,49 @@ void ProgressWidget::paintEvent( QPaintEvent* e )
      }
      QRect textRect ( 0, height() / 2 + ringR_ + fm.height() + 10, width(), height() );
      painter.drawText( textRect,  Qt::AlignHCenter | Qt::AlignTop, text_ + txtAdd );
+}
+
+
+void ProgressWidget::keyPressEvent( QKeyEvent* e )
+{
+     if( e )
+     {
+          if( Qt::Key_Escape == e->key() )
+          {
+               emit userCancelled();
+               return;
+          }
+     }
+     QWidget::keyPressEvent( e );
+}
+
+
+void ProgressWidget::startDelayTimer()
+{
+     if( !delayStart_ )
+     {
+          return;
+     }
+     delete delayTimer_;
+     delayTimer_ = new QElapsedTimer;
+     delayTimer_->start();
+}
+
+
+void ProgressWidget::timerTimeout()
+{
+     ++frames_;
+     update();
+}
+
+
+void ProgressWidget::prepareAndShow()
+{
+     show();
+     setFocus();
+
+     if( parentWidget() )
+     {
+          resize( parentWidget()->size() );
+     }
 }
