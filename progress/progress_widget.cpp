@@ -23,9 +23,6 @@ ProgressWidget* ProgressWidget::discrete(
      progress->setMode( Mode::Discrete );
      progress->setColor( start, Color::Start );
      progress->setColor( end, Color::End );
-     progress->setRingWidth( 18 );
-     progress->setRingRadius( 22 );
-     progress->setTextAnimationSpeedFraction( 5 );
      return progress;
 }
 
@@ -56,10 +53,10 @@ ProgressWidget::ProgressWidget(
      , mode_{ Mode::Discrete }
      , text_{ text }
      , textFrames_{ textAnimation }
-     , textPaintFraction_( 4 )
+     , textPaintFraction_( 5 )
      , frames_( 40 )
-     , ringR_( 20 )
-     , ringW_( 8 )
+     , ringR_( 22 )
+     , ringW_( 18 )
      , delayStart_( 1890 )
      , startColor_( 156, 157, 159 )
      , endColor_( 253, 253, 253 )
@@ -173,23 +170,20 @@ void ProgressWidget::startAnimation()
 }
 
 
-void ProgressWidget::endAnimation( bool doSelfDelete /*= false*/ )
+void ProgressWidget::endAnimation()
 {
      setAnimationState( false );
      hide();
-
-     delete delayTimer_;
-     delayTimer_ = nullptr;
-
+     if( delayTimer_ )
+     {
+          delete delayTimer_;
+          delayTimer_ = nullptr;
+     }
      if( timer_ )
      {
           timer_->stop();
           timer_->deleteLater();
           timer_ = nullptr;
-     }
-     if( doSelfDelete )
-     {
-          deleteLater();
      }
 }
 
@@ -201,7 +195,6 @@ void ProgressWidget::setAnimationState( const bool doAnimate )
           return;
      }
      isAnimatedNow_ = doAnimate;
-     emit animateStateChanged( isAnimatedNow_ );
 }
 
 
@@ -380,7 +373,7 @@ void ProgressWidget::keyPressEvent( QKeyEvent* e )
      {
           if( Qt::Key_Escape == e->key() )
           {
-               emit userCancelled();
+               emit cancelled();
                return;
           }
      }

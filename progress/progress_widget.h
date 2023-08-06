@@ -43,7 +43,7 @@ public:
      };
 
 public:
-     explicit ProgressWidget(
+     ProgressWidget(
           QWidget* parent
           , const QString& text
           , const QStringList& textAnimation
@@ -78,14 +78,13 @@ public slots:
      void setColor( const QColor& color, Color colorType );
 
      virtual void startAnimation();
-     virtual void endAnimation( bool doSelfDelete = false );
+     virtual void endAnimation();
 
      void setAnimationState( const bool doAnimate );
 
 signals:
      /// Высылается при отмене операции пользователем.
-     void userCancelled();
-     void animateStateChanged( bool isAimatedNow );
+     void cancelled();
 
 protected:
      bool eventFilter( QObject* o, QEvent* e ) override;
