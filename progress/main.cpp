@@ -7,25 +7,49 @@
 int main( int argc, char *argv[] )
 {
      QApplication app{ argc, argv };
+
      QDialogButtonBox dlg;
-     auto actionButton = dlg.addButton( "Загрузка", QDialogButtonBox::ActionRole );
-     auto progress = new ProgressWidget( &dlg, "Загрузка", { "", ".", "..", "..." }, false );
+     auto loadButton = dlg.addButton( "Загрузка", QDialogButtonBox::ActionRole );
+     auto connectButton = dlg.addButton( "Подключение", QDialogButtonBox::ActionRole );
+
+     auto loadProgress = new ProgressWidget( &dlg, "Загрузка", { "", ".", "..", "..." }, false );
+     auto connectProgress = new ProgressWidget( &dlg, "Подключение", { "", ".", "..", "..." }, false );
 
      QObject::connect(
-          actionButton
+          loadButton
           , &QPushButton::clicked
-          , [ progress ]
+          , [ loadProgress ]
           {
-               progress->startAnimation();
+               loadProgress->setMode( ProgressWidget::Mode::Discrete );
+               loadProgress->startAnimation();
           }
      );
 
      QObject::connect(
-          progress
-          , &ProgressWidget::cancelled
-          , [ progress ]
+          connectButton
+          , &QPushButton::clicked
+          , [ connectProgress ]
           {
-               progress->endAnimation();
+               connectProgress->setMode( ProgressWidget::Mode::Solid );
+               connectProgress->startAnimation();
+          }
+     );
+
+     QObject::connect(
+          loadProgress
+          , &ProgressWidget::cancelled
+          , [ loadProgress ]
+          {
+               loadProgress->endAnimation();
+          }
+     );
+
+     QObject::connect(
+          connectProgress
+          , &ProgressWidget::cancelled
+          , [ connectProgress ]
+          {
+               connectProgress->endAnimation();
           }
      );
 
