@@ -19,3 +19,4 @@ find_package(Qt5Widgets REQUIRED)
 message(STATUS "Found Qt widgets: ${Qt5Widgets_VERSION}")
 
 add_subdirectory(calc)
+add_subdirectory(progress)
