@@ -7,8 +7,6 @@
 #include <QtCore/QTimer>
 #include <QtGui/QKeyEvent>
 #include <QtGui/QPainter>
-#include <QtGui/QPolygon>
-#include <QtWidgets/QApplication>
 
 
 ProgressWidget* ProgressWidget::discrete(
