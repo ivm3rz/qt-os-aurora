@@ -9,7 +9,6 @@ FetchContent_MakeAvailable(boost_matheval)
 
 # Включаем Qt-кодогенерацию
 set(CMAKE_AUTOMOC ON)
-set(CMAKE_AUTORCC ON)
 set(CMAKE_AUTOUIC ON)
 
 add_executable(${PROJECT_NAME}
