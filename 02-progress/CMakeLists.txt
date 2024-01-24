@@ -1,8 +1,5 @@
 project(progress LANGUAGES CXX VERSION 0.1)
 
-# Включаем Qt-кодогенерацию
-set(CMAKE_AUTOMOC ON)
-
 add_executable(${PROJECT_NAME}
      main.cpp
      progress_widget.h
@@ -10,3 +7,8 @@ add_executable(${PROJECT_NAME}
 )
 
 target_link_libraries(${PROJECT_NAME} Qt::Widgets)
+
+set_target_properties(${PROJECT_NAME}
+     PROPERTIES
+     AUTOMOC ON
+)

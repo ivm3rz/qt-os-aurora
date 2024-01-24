@@ -7,10 +7,6 @@ FetchContent_Declare(boost_matheval
 )
 FetchContent_MakeAvailable(boost_matheval)
 
-# Включаем Qt-кодогенерацию
-set(CMAKE_AUTOMOC ON)
-set(CMAKE_AUTOUIC ON)
-
 add_executable(${PROJECT_NAME}
      main.cpp
      calculator.h
@@ -19,3 +15,10 @@ add_executable(${PROJECT_NAME}
 )
 
 target_link_libraries(${PROJECT_NAME} Qt::Widgets matheval::x3)
+
+# Включаем Qt-кодогенерацию
+set_target_properties(${PROJECT_NAME}
+     PROPERTIES
+     AUTOMOC ON
+     AUTOUIC ON
+)
