@@ -20,3 +20,4 @@ message(STATUS "Found Qt widgets: ${Qt5Widgets_VERSION}")
 
 add_subdirectory(01-calculator)
 add_subdirectory(02-progress)
+add_subdirectory(03-volers)

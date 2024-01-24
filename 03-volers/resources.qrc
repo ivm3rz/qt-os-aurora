@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/">
+        <file>significant-volcanic-eruption-database.csv</file>
+    </qresource>
+</RCC>
