@@ -91,6 +91,7 @@ int main( int argc, char *argv[] )
      }
      widget.resizeColumnsToContents();
      widget.setWindowTitle( QObject::tr( "Данные о наиболее значимых вулканических извержениях" ) );
+     widget.setSizeAdjustPolicy( QAbstractScrollArea::AdjustToContents );
      widget.show();
 
      return app.exec();
