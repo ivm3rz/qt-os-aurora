@@ -27,7 +27,9 @@ auto date( const QStringList& row )
 
      return month and day
           ? QDate{ year, month, day }.toString( Qt::ISODate )
-          : row.at( 0 )
+          : year >= 0
+               ? QString::number( year ) + QObject::tr(" г." )
+               : QString::number( -year ) + QObject::tr(" г. до н.э." )
           ;
 }
 
