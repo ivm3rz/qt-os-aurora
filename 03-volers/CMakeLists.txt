@@ -9,7 +9,7 @@ add_executable(${PROJECT_NAME}
      resources.qrc
 )
 
-target_link_libraries(${PROJECT_NAME} Qt::Core)
+target_link_libraries(${PROJECT_NAME} Qt::Widgets)
 
 set_target_properties(${PROJECT_NAME}
      PROPERTIES
