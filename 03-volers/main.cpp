@@ -16,6 +16,9 @@ enum CsvColumn
      FlagTsunami,
      FlagEarthquake,
      VolcanoName,
+     Location,
+     Country,
+     Elevation,
 };
 
 
@@ -41,7 +44,7 @@ int main( int argc, char *argv[] )
      QFile file{ ":/significant-volcanic-eruption-database.csv" };
 
      QTableWidget widget;
-     QStringList headerLabels{ "Дата/год", "Цунами", "Землетрясение", "Название вулкана" };
+     QStringList headerLabels{ "Дата/год", "Цунами", "Землетрясение", "Название вулкана", "Местонахождение", "Страна", "Высота, м" };
      widget.setColumnCount( headerLabels.size() );
      widget.setShowGrid( true );
      widget.setSelectionMode( QAbstractItemView::SingleSelection );
@@ -77,6 +80,13 @@ int main( int argc, char *argv[] )
                     widget.setItem( index, 2, earthquakeItem );
                }
                widget.setItem( index, 3, new QTableWidgetItem( values.at( VolcanoName ) ) );
+               widget.setItem( index, 4, new QTableWidgetItem( values.at( Location ) ) );
+               widget.setItem( index, 5, new QTableWidgetItem( values.at( Country ) ) );
+               if( const auto elevationItem = new QTableWidgetItem() )
+               {
+                    elevationItem->setData( Qt::DisplayRole, values.at( Elevation ).toInt() );
+                    widget.setItem( index, 6, elevationItem );
+               }
           }
      }
      widget.resizeColumnsToContents();
