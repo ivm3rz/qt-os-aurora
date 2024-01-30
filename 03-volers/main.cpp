@@ -75,7 +75,7 @@ public:
           : QStyledItemDelegate{ parent }
      {}
 
-     QWidget* createEditor( QWidget*parent, const QStyleOptionViewItem& option, const QModelIndex& index) const override
+     QWidget* createEditor( QWidget* parent, const QStyleOptionViewItem& /*option*/, const QModelIndex& /*index*/ ) const override
      {
           return new QComboBox{ parent };
      }
