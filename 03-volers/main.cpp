@@ -1,6 +1,7 @@
 #include <QtCore/QDate>
 #include <QtCore/QFile>
 #include <QtCore/QTextStream>
+#include <QtGui/QPainter>
 #include <QtGui/QStandardItemModel>
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QComboBox>
@@ -62,6 +63,11 @@ QPixmap flag( const QString& country )
 }
 
 
+static const QStringList colorNames {
+     "white", "lightyellow", "yellow", "gold", "orange", "darkorange", "orangered", "red", "brown"
+};
+
+
 class ComboBoxDelegate : public QStyledItemDelegate
 {
 public:
@@ -76,7 +82,6 @@ public:
 
      void setEditorData( QWidget* editor, const QModelIndex& index ) const override
      {
-          static const QStringList colorNames{ "white", "lightyellow", "yellow", "gold", "orange", "darkorange", "orangered", "red", "brown" };
           if( auto comboBox = qobject_cast< QComboBox* >( editor ) )
           {
                for( auto idx = 0; idx <= 8; ++idx )
@@ -86,6 +91,15 @@ public:
                }
                comboBox->setCurrentIndex( index.data( Qt::EditRole ).toInt() );
           }
+     }
+
+     void paint( QPainter* painter, const QStyleOptionViewItem& option, const QModelIndex& index ) const override
+     {
+          painter->save();
+          painter->setPen( index.data( Qt::DecorationRole ).toString() );
+          painter->fillRect( option.rect, colorNames[ index.data( Qt::DisplayRole ).toString().toInt() ] );
+          painter->drawText( option.rect, Qt::AlignCenter, index.data( Qt::DisplayRole ).toString() );
+          painter->restore();
      }
 };
 
