@@ -121,5 +121,7 @@ int main( int argc, char *argv[] )
      widget.setSizeAdjustPolicy( QAbstractScrollArea::AdjustToContents );
      widget.show();
 
+     app.setWindowIcon( QPixmap{ ":/volcano_icon_24" } );
+
      return app.exec();
 }
