@@ -6,6 +6,7 @@
 #include <QtWidgets/QComboBox>
 #include <QtWidgets/QHeaderView>
 #include <QtWidgets/QTableWidget>
+#include <QtWidgets/QStyledItemDelegate>
 
 
 enum CsvColumn
@@ -59,6 +60,34 @@ QPixmap flag( const QString& country )
      }
      return QPixmap{ flag };
 }
+
+
+class ComboBoxDelegate : public QStyledItemDelegate
+{
+public:
+     ComboBoxDelegate( QObject* parent = nullptr )
+          : QStyledItemDelegate{ parent }
+     {}
+
+     QWidget* createEditor( QWidget*parent, const QStyleOptionViewItem& option, const QModelIndex& index) const override
+     {
+          return new QComboBox{ parent };
+     }
+
+     void setEditorData( QWidget* editor, const QModelIndex& index ) const override
+     {
+          static const QStringList colorNames{ "white", "lightyellow", "yellow", "gold", "orange", "darkorange", "orangered", "red", "brown" };
+          if( auto comboBox = qobject_cast< QComboBox* >( editor ) )
+          {
+               for( auto idx = 0; idx <= 8; ++idx )
+               {
+                    comboBox->addItem( QString::number( idx ) );
+                    comboBox->setItemData( idx, QColor( colorNames[ idx ] ) , Qt::BackgroundRole );
+               }
+               comboBox->setCurrentIndex( index.data( Qt::EditRole ).toInt() );
+          }
+     }
+};
 
 
 int main( int argc, char *argv[] )
@@ -122,6 +151,7 @@ int main( int argc, char *argv[] )
                widget.setItem( rowIndex, columnIndex++, new QTableWidgetItem( values.at( VolcanoType ) ) );
                widget.setItem( rowIndex, columnIndex++, new QTableWidgetItem( values.at( Status ) ) );
                widget.setItem( rowIndex, columnIndex, new QTableWidgetItem( values.at( Explosivity ) ) );
+               widget.setItemDelegateForColumn( columnIndex++, new ComboBoxDelegate{ &widget } );
           }
      }
      widget.resizeColumnsToContents();
