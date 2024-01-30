@@ -37,6 +37,27 @@ auto date( const QStringList& row )
 }
 
 
+QPixmap flag( const QString& country )
+{
+     static const QMap< QString, QString > countryFlags
+     {
+          { "Indonesia", ":/flags/id.png" },
+          { "Japan",     ":/flags/jp.png" },
+          { "Italy",     ":/flags/it.png" },
+          { "Chile",     ":/flags/cl.png" },
+          { "Spain",     ":/flags/es.png" },
+          { "Ecuador",   ":/flags/ec.png" },
+          { "Iceland",   ":/flags/is.png" },
+     };
+     const auto& flag = countryFlags.value( country );
+     if( flag.isEmpty() )
+     {
+          return {};
+     }
+     return QPixmap{ flag };
+}
+
+
 int main( int argc, char *argv[] )
 {
      QApplication app{ argc, argv };
@@ -81,7 +102,13 @@ int main( int argc, char *argv[] )
                }
                widget.setItem( index, 3, new QTableWidgetItem( values.at( VolcanoName ) ) );
                widget.setItem( index, 4, new QTableWidgetItem( values.at( Location ) ) );
-               widget.setItem( index, 5, new QTableWidgetItem( values.at( Country ) ) );
+               if( const auto item = new QTableWidgetItem() )
+               {
+                    const auto country = values.at( Country );
+                    item->setData( Qt::DisplayRole, country );
+                    item->setData( Qt::DecorationRole, flag( country ) );
+                    widget.setItem( index, 5, item );
+               };
                if( const auto elevationItem = new QTableWidgetItem() )
                {
                     elevationItem->setData( Qt::DisplayRole, values.at( Elevation ).toInt() );

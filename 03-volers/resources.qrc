@@ -1,5 +1,13 @@
 <RCC>
     <qresource prefix="/">
         <file>significant-volcanic-eruption-database.csv</file>
+        <file>flags/id.png</file>
+        <file>flags/cl.png</file>
+        <file>flags/ec.png</file>
+        <file>flags/es.png</file>
+        <file>flags/id.png</file>
+        <file>flags/is.png</file>
+        <file>flags/it.png</file>
+        <file>flags/jp.png</file>
     </qresource>
 </RCC>
