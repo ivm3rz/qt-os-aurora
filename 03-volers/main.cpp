@@ -1,9 +1,9 @@
 #include <QtCore/QDate>
-#include <QtCore/QDebug>
 #include <QtCore/QFile>
 #include <QtCore/QTextStream>
 #include <QtGui/QStandardItemModel>
 #include <QtWidgets/QApplication>
+#include <QtWidgets/QComboBox>
 #include <QtWidgets/QHeaderView>
 #include <QtWidgets/QTableWidget>
 
@@ -19,6 +19,9 @@ enum CsvColumn
      Location,
      Country,
      Elevation,
+     VolcanoType,
+     Status,
+     Explosivity,
 };
 
 
@@ -65,7 +68,7 @@ int main( int argc, char *argv[] )
      QFile file{ ":/significant-volcanic-eruption-database.csv" };
 
      QTableWidget widget;
-     QStringList headerLabels{ "Дата/год", "Цунами", "Землетрясение", "Название вулкана", "Местонахождение", "Страна", "Высота, м" };
+     QStringList headerLabels{ "Дата/год", "Цунами", "Землетрясение", "Название вулкана", "Местонахождение", "Страна", "Высота, м", "Тип вулкана", "Статус", "Индекс вулканической активности" };
      widget.setColumnCount( headerLabels.size() );
      widget.setShowGrid( true );
      widget.setSelectionMode( QAbstractItemView::SingleSelection );
@@ -116,6 +119,9 @@ int main( int argc, char *argv[] )
                     item->setData( Qt::DisplayRole, values.at( Elevation ).toInt() );
                     widget.setItem( rowIndex, columnIndex++, item );
                }
+               widget.setItem( rowIndex, columnIndex++, new QTableWidgetItem( values.at( VolcanoType ) ) );
+               widget.setItem( rowIndex, columnIndex++, new QTableWidgetItem( values.at( Status ) ) );
+               widget.setItem( rowIndex, columnIndex, new QTableWidgetItem( values.at( Explosivity ) ) );
           }
      }
      widget.resizeColumnsToContents();
