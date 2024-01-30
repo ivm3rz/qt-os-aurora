@@ -80,39 +80,41 @@ int main( int argc, char *argv[] )
           {
                const auto each = in.readLine();
                const auto values = each.split( ";" );
-               const auto index = widget.rowCount();
-               widget.insertRow( index );
+               const auto rowIndex = widget.rowCount();
+               auto columnIndex = 0;
+
+               widget.insertRow( rowIndex );
 
                if( const auto item = new QTableWidgetItem() )
                {
                     item->setData( Qt::DisplayRole, date( values ) );
-                    widget.setItem( index, 0, item );
+                    widget.setItem( rowIndex, columnIndex++, item );
                }
                if( const auto item = new QTableWidgetItem() )
                {
                     item->data( Qt::CheckStateRole );
                     item->setCheckState( values.at( FlagTsunami ).contains( "Tsunami" ) ? Qt::Checked : Qt::Unchecked );
-                    widget.setItem( index, 1, item );
+                    widget.setItem( rowIndex, columnIndex++, item );
                }
                if( const auto item = new QTableWidgetItem() )
                {
                     item->data( Qt::CheckStateRole );
                     item->setCheckState( values.at( FlagEarthquake ).contains( "Earthquake" ) ? Qt::Checked : Qt::Unchecked );
-                    widget.setItem( index, 2, item );
+                    widget.setItem( rowIndex, columnIndex++, item );
                }
-               widget.setItem( index, 3, new QTableWidgetItem( values.at( VolcanoName ) ) );
-               widget.setItem( index, 4, new QTableWidgetItem( values.at( Location ) ) );
+               widget.setItem( rowIndex, columnIndex++, new QTableWidgetItem( values.at( VolcanoName ) ) );
+               widget.setItem( rowIndex, columnIndex++, new QTableWidgetItem( values.at( Location ) ) );
                if( const auto item = new QTableWidgetItem() )
                {
                     const auto country = values.at( Country );
                     item->setData( Qt::DisplayRole, country );
                     item->setData( Qt::DecorationRole, flag( country ) );
-                    widget.setItem( index, 5, item );
+                    widget.setItem( rowIndex, columnIndex++, item );
                };
                if( const auto item = new QTableWidgetItem() )
                {
                     item->setData( Qt::DisplayRole, values.at( Elevation ).toInt() );
-                    widget.setItem( index, 6, item );
+                    widget.setItem( rowIndex, columnIndex++, item );
                }
           }
      }
