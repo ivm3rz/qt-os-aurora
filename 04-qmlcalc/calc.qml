@@ -39,7 +39,7 @@ ApplicationWindow {
             fontSizeMode: Text.Fit
             minimumPixelSize: 12
             Layout.row: 0
-            Layout.columnSpan: 4
+            Layout.columnSpan: 5
             Layout.fillWidth: true
             Layout.fillHeight: true
         }
@@ -217,6 +217,47 @@ ApplicationWindow {
             Layout.fillWidth: true
             Layout.fillHeight: true
             onClicked: grid.onOperatorButtonClicked("*")
+        }
+
+        Button {
+            id: erase
+            text: "⌫"
+            font.bold: true
+            Layout.row: 1
+            Layout.column: 4
+            Layout.fillWidth: true
+            Layout.fillHeight: true
+            background: Rectangle {
+                color: "red"
+            }
+            onClicked: {
+                const text = digits.text.slice(0, -1)
+                digits.text = text.length > 0 ? text : "0"
+            }
+        }
+
+        Button {
+            id: sqrt
+            text: "√"
+            font.bold: true
+            Layout.row: 2
+            Layout.column: 4
+            Layout.fillWidth: true
+            Layout.fillHeight: true
+        }
+
+        Button {
+            id: equal
+            text: "="
+            font.bold: true
+            Layout.row: 3
+            Layout.column: 4
+            Layout.rowSpan: 2
+            Layout.fillWidth: true
+            Layout.fillHeight: true
+            background: Rectangle {
+                color: "green"
+            }
         }
     }
 }
