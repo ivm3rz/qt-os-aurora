@@ -4,6 +4,6 @@
 int main( int argc, char* argv[] )
 {
      QGuiApplication app{ argc, argv };
-     QQmlApplicationEngine engine{ ":/qml/app.qml" };
+     QQmlApplicationEngine engine{ ":/calc.qml" };
      return app.exec();
 }
