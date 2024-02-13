@@ -15,7 +15,7 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
 include(FetchContent)
 
-find_package(Qt5Widgets REQUIRED)
+find_package(Qt5 COMPONENTS Widgets REQUIRED)
 message(STATUS "Found Qt widgets: ${Qt5Widgets_VERSION}")
 
 add_subdirectory(01-calculator)
