@@ -14,6 +14,14 @@ ApplicationWindow {
        id: grid
        anchors.fill: parent
 
+       function onDigitButtonClicked(digitButton) {
+           if(digits.text == "0") {
+               digits.text = digitButton.text
+           } else {
+               digits.text += digitButton.text
+           }
+       }
+
        Text {
            id: digits
            text: "0"
@@ -22,6 +30,7 @@ ApplicationWindow {
            horizontalAlignment: Text.AlignRight
            verticalAlignment: Text.AlignVCenter
            fontSizeMode: Text.Fit
+           minimumPixelSize: 12
            Layout.row: 0
            Layout.columnSpan: 4
            Layout.fillWidth: true
@@ -36,6 +45,7 @@ ApplicationWindow {
            Layout.column: 0
            Layout.fillWidth: true
            Layout.fillHeight: true
+           onClicked: grid.onDigitButtonClicked(this)
        }
 
        Button {
@@ -46,6 +56,7 @@ ApplicationWindow {
            Layout.column: 1
            Layout.fillWidth: true
            Layout.fillHeight: true
+           onClicked: grid.onDigitButtonClicked(this)
        }
 
        Button {
@@ -56,6 +67,7 @@ ApplicationWindow {
            Layout.column: 2
            Layout.fillWidth: true
            Layout.fillHeight: true
+           onClicked: grid.onDigitButtonClicked(this)
        }
 
        Button {
@@ -66,6 +78,7 @@ ApplicationWindow {
            Layout.column: 0
            Layout.fillWidth: true
            Layout.fillHeight: true
+           onClicked: grid.onDigitButtonClicked(this)
        }
 
        Button {
@@ -76,6 +89,7 @@ ApplicationWindow {
            Layout.column: 1
            Layout.fillWidth: true
            Layout.fillHeight: true
+           onClicked: grid.onDigitButtonClicked(this)
        }
 
        Button {
@@ -86,6 +100,7 @@ ApplicationWindow {
            Layout.column: 2
            Layout.fillWidth: true
            Layout.fillHeight: true
+           onClicked: grid.onDigitButtonClicked(this)
        }
 
        Button {
@@ -96,6 +111,7 @@ ApplicationWindow {
            Layout.column: 0
            Layout.fillWidth: true
            Layout.fillHeight: true
+           onClicked: grid.onDigitButtonClicked(this)
        }
 
        Button {
@@ -106,6 +122,7 @@ ApplicationWindow {
            Layout.column: 1
            Layout.fillWidth: true
            Layout.fillHeight: true
+           onClicked: grid.onDigitButtonClicked(this)
        }
 
        Button {
@@ -116,6 +133,7 @@ ApplicationWindow {
            Layout.column: 2
            Layout.fillWidth: true
            Layout.fillHeight: true
+           onClicked: grid.onDigitButtonClicked(this)
        }
 
        Button {
@@ -126,6 +144,7 @@ ApplicationWindow {
            Layout.column: 0
            Layout.fillWidth: true
            Layout.fillHeight: true
+           onClicked: grid.onDigitButtonClicked(this)
        }
 
        Button {
