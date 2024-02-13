@@ -10,17 +10,22 @@ ApplicationWindow {
     height: 480
     title: qsTr("QML calculator")
 
-
-
     GridLayout {
         id: grid
         anchors.fill: parent
+        readonly property string exclamation: "❗"
 
         function onDigitButtonClicked(digitButton) {
-            if(digits.text == "0") {
+            if(digits.text == "0" || digits.text == exclamation) {
                 digits.text = digitButton.text
             } else {
                 digits.text += digitButton.text
+            }
+        }
+
+        function onOperatorButtonClicked(operator) {
+            if(digits.text != exclamation) {
+                digits.text += operator
             }
         }
 
@@ -178,16 +183,18 @@ ApplicationWindow {
             Layout.column: 3
             Layout.fillWidth: true
             Layout.fillHeight: true
+            onClicked: grid.onOperatorButtonClicked("+")
         }
 
         Button {
             id: minus
-            text: "-"
+            text: "−"
             font.bold: true
             Layout.row: 2
             Layout.column: 3
             Layout.fillWidth: true
             Layout.fillHeight: true
+            onClicked: grid.onOperatorButtonClicked("-")
         }
 
         Button {
@@ -198,6 +205,7 @@ ApplicationWindow {
             Layout.column: 3
             Layout.fillWidth: true
             Layout.fillHeight: true
+            onClicked: grid.onOperatorButtonClicked("/")
         }
 
         Button {
@@ -208,6 +216,7 @@ ApplicationWindow {
             Layout.column: 3
             Layout.fillWidth: true
             Layout.fillHeight: true
+            onClicked: grid.onOperatorButtonClicked("*")
         }
     }
 }
