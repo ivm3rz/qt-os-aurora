@@ -35,3 +35,13 @@
 Написать приложение, которое визуализирует в виде таблицы данные о наиболее значимых вулканических извержениях.
 Источником данных является [СSV-файл](https://public.opendatasoft.com/api/explore/v2.1/catalog/datasets/significant-volcanic-eruption-database/exports/csv?lang=en&timezone=Europe%2FMinsk&use_labels=true&delimiter=%3B).
 Реализовать [кастомный делегат](https://doc.qt.io/qt-5/model-view-programming.html#delegate-classes) для отображения интенсивности извержений вулканов.
+
+### 4. [Приложение на QML](04-qmlcalc)
+
+#### Цель:
+- Практикуемся в использовании [QML](https://doc.qt.io/qt-5/qmlapplications.html) для разработки UI.
+- Практикуемся в портировании приложений с QtWidget на QML.
+
+#### Постановка задачи:
+Портировать разработанное на QtWidget приложение [Калькулятор](01-calculator) с аналогичным функционалом на QML. 
+Реализовать взаимодействие С++ объекта, реализующего парсинг и вычисление математических выражений, с объектами QML. 
