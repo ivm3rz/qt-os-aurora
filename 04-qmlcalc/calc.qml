@@ -19,18 +19,19 @@ ApplicationWindow {
           id: grid
           anchors.fill: parent
           readonly property string exclamation: "❗"
+          property alias display: digits.text
 
           function onDigitButtonClicked(digitButton) {
-               if(digits.text == "0" || digits.text == exclamation) {
-                    digits.text = digitButton.text
+               if(display == "0" || display == exclamation) {
+                    display = digitButton.text
                } else {
-                    digits.text += digitButton.text
+                    display += digitButton.text
                }
           }
 
           function onOperatorButtonClicked(operator) {
-               if(digits.text != exclamation) {
-                    digits.text += operator
+               if(display != exclamation) {
+                    display += operator
                }
           }
 
@@ -238,8 +239,8 @@ ApplicationWindow {
                     color: "red"
                }
                onClicked: {
-                    const text = digits.text.slice(0, -1)
-                    digits.text = text.length > 0 ? text : "0"
+                    const text = parent.display.slice(0, -1)
+                    parent.display = text.length > 0 ? text : "0"
                }
           }
 
@@ -251,8 +252,8 @@ ApplicationWindow {
                Layout.column: 4
                Layout.fillWidth: true
                Layout.fillHeight: true
-               enabled: digits.text != parent.exclamation
-               onClicked: digits.text = "sqrt(" + digits.text + ")"
+               enabled: parent.display != parent.exclamation
+               onClicked: parent.display = "sqrt(" + parent.display + ")"
           }
 
           Button {
@@ -267,10 +268,10 @@ ApplicationWindow {
                background: Rectangle {
                     color: "green"
                }
-               enabled: digits.text != parent.exclamation
+               enabled: parent.display != parent.exclamation
                onClicked: {
-                    const result = matheval.evaluate(digits.text)
-                    digits.text = Number.isNaN(result) ? parent.exclamation : result
+                    const result = matheval.evaluate(parent.display)
+                    parent.display = Number.isNaN(result) ? parent.exclamation : result
                }
           }
      }
