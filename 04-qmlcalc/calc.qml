@@ -251,6 +251,8 @@ ApplicationWindow {
                Layout.column: 4
                Layout.fillWidth: true
                Layout.fillHeight: true
+               enabled: digits.text != parent.exclamation
+               onClicked: digits.text = "sqrt(" + digits.text + ")"
           }
 
           Button {
