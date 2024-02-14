@@ -2,6 +2,7 @@ import QtQuick 2.15
 import QtQuick.Window 2.15
 import QtQuick.Layouts 1.3
 import QtQuick.Controls 2.5
+import qmlcalc 0.1
 
 
 ApplicationWindow {
@@ -9,6 +10,10 @@ ApplicationWindow {
      width: 480
      height: 480
      title: qsTr("QML calculator")
+
+     MathEval {
+          id: matheval
+     }
 
      GridLayout {
           id: grid
@@ -258,6 +263,7 @@ ApplicationWindow {
                background: Rectangle {
                     color: "green"
                }
+               onClicked: digits.text = matheval.evaluate(digits.text)
           }
      }
 }
