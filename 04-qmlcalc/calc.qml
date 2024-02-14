@@ -265,6 +265,7 @@ ApplicationWindow {
                background: Rectangle {
                     color: "green"
                }
+               enabled: digits.text != parent.exclamation
                onClicked: {
                     const result = matheval.evaluate(digits.text)
                     digits.text = Number.isNaN(result) ? parent.exclamation : result
