@@ -47,6 +47,8 @@ ApplicationWindow {
                Layout.columnSpan: 5
                Layout.fillWidth: true
                Layout.fillHeight: true
+               ToolTip.visible: matheval.error.length > 0
+               ToolTip.text: matheval.error
           }
 
           Button {
@@ -263,7 +265,10 @@ ApplicationWindow {
                background: Rectangle {
                     color: "green"
                }
-               onClicked: digits.text = matheval.evaluate(digits.text)
+               onClicked: {
+                    const result = matheval.evaluate(digits.text)
+                    digits.text = Number.isNaN(result) ? parent.exclamation : result
+               }
           }
      }
 }
