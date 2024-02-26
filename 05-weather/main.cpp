@@ -1,4 +1,8 @@
-#include <QtCore/QCoreApplication>
+#include <QtCore/QJsonDocument>
+#include <QtWidgets/QLabel>
+#include <QtWidgets/QWidget>
+#include <QtWidgets/QFormLayout>
+#include <QtWidgets/QApplication>
 #include <QtNetwork/QNetworkAccessManager>
 #include <QtNetwork/QNetworkReply>
 #include <QtNetwork/QNetworkRequest>
@@ -6,16 +10,30 @@
 
 int main( int argc, char *argv[] )
 {
-     QCoreApplication app{ argc,argv };
+     QApplication app{ argc,argv };
+
+     QWidget widget;
+
+     const auto formLayout = new QFormLayout( &widget );
+     const auto latitude = new QLabel( &widget );
+     const auto longitude = new QLabel( &widget );
+     formLayout->addRow( QObject::tr( "Latitude:" ), latitude );
+     formLayout->addRow( QObject::tr( "Longitude" ), longitude );
+     widget.setLayout( formLayout );
+
      QNetworkAccessManager networkManager;
      const auto reply = networkManager.get( QNetworkRequest{ QUrl{ "http://ifconfig.co/json" } } );
 
      QObject::connect(
           reply
           , &QNetworkReply::readyRead
-          , [ reply ]
+          , [ reply, latitude, longitude ]
           {
-               qDebug().noquote() << reply->readAll();
+               const auto& json = reply->readAll();
+               qDebug().noquote() << json;
+               const auto& document = QJsonDocument::fromJson( json );
+               latitude->setNum( document[ "latitude" ].toDouble() );
+               longitude->setNum( document[ "longitude" ].toDouble() );
           }
      );
 
@@ -34,6 +52,7 @@ int main( int argc, char *argv[] )
           , reply
           , &QNetworkReply::deleteLater
      );
-
+     widget.setWindowTitle( "Weather⛅" );
+     widget.show();
      return app.exec();
 }
