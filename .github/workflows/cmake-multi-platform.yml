@@ -57,6 +57,7 @@ jobs:
       uses: MarkusJx/install-boost@v2.4.5
       with:
         boost_version: 1.84.0
+        link: shared
         toolset: ${{ matrix.c_compiler }}
     
     - name: Install Qt
@@ -83,8 +84,6 @@ jobs:
         -DCMAKE_CXX_COMPILER=${{ matrix.cpp_compiler }}
         -DCMAKE_C_COMPILER=${{ matrix.c_compiler }}
         -DCMAKE_BUILD_TYPE=${{ matrix.build_type }}
-        -DBoost_INCLUDE_DIR=${{ steps.install-boost.outputs.BOOST_ROOT }}/include
-        -DBoost_LIBRARY_DIRS=${{ steps.install-boost.outputs.BOOST_ROOT }}/lib
         -S ${{ github.workspace }}
 
     - name: Build
