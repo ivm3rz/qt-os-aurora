@@ -19,6 +19,7 @@ public:
      explicit Weather( QWidget* parent = nullptr );
 
 public Q_SLOTS:
+     void fetchGeoPosition();
      void fetchWeather( double lat, double lon );
 
 private:

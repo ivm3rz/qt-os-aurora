@@ -28,6 +28,12 @@ Weather::Weather( QWidget* parent )
      mainLayout->addLayout( formLayout );
      mainLayout->addItem( new QSpacerItem( 0, 0, QSizePolicy::Ignored, QSizePolicy::MinimumExpanding ) );
 
+     fetchGeoPosition();
+}
+
+
+void Weather::fetchGeoPosition()
+{
      const auto reply = network_->get( QNetworkRequest{ QUrl{ "http://ifconfig.co/json" } } );
 
      connect(
