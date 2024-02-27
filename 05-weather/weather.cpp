@@ -1,6 +1,7 @@
 #include "weather.h"
 
 #include <QtCore/QJsonDocument>
+#include <QtCore/QUrlQuery>
 #include <QtWidgets/QLabel>
 #include <QtWidgets/QWidget>
 #include <QtWidgets/QFormLayout>
@@ -11,7 +12,7 @@
 
 Weather::Weather( QWidget* parent )
      : QWidget{ parent }
-     , net_{ new QNetworkAccessManager( this ) }
+     , network_{ new QNetworkAccessManager( this ) }
      , latitude_{ new QLabel( this ) }
      , longitude_{ new QLabel( this ) }
      , location_{ new QLabel( this ) }
@@ -27,23 +28,28 @@ Weather::Weather( QWidget* parent )
      mainLayout->addLayout( formLayout );
      mainLayout->addItem( new QSpacerItem( 0, 0, QSizePolicy::Ignored, QSizePolicy::MinimumExpanding ) );
 
-     const auto reply = net_->get( QNetworkRequest{ QUrl{ "http://ifconfig.co/json" } } );
+     const auto reply = network_->get( QNetworkRequest{ QUrl{ "http://ifconfig.co/json" } } );
 
-     QObject::connect(
+     connect(
           reply
           , &QNetworkReply::readyRead
           , [ reply, this ]
           {
                const auto& json = reply->readAll();
                qDebug().noquote() << json;
-               const auto& document = QJsonDocument::fromJson( json );
-               latitude_->setNum( document[ "latitude" ].toDouble() );
-               longitude_->setNum( document[ "longitude" ].toDouble() );
+
+               const auto document = QJsonDocument::fromJson( json );
+               const auto latitude = document[ "latitude" ].toDouble();
+               const auto longitude = document[ "longitude" ].toDouble();
+               latitude_->setNum( latitude );
+               longitude_->setNum( longitude );
                location_->setText( document[ "country" ].toString() + "/" + document[ "city" ].toString() );
+
+               fetchWeather( latitude, longitude );
           }
      );
 
-     QObject::connect(
+     connect(
           reply
           , &QNetworkReply::errorOccurred
           , [ reply, this ]
@@ -52,10 +58,52 @@ Weather::Weather( QWidget* parent )
                latitude_->setText( "--" );
                longitude_->setText( "--" );
                location_->setText( "-- " );
+               setToolTip( reply->errorString() );
           }
      );
 
-     QObject::connect(
+     connect(
+          reply
+          , &QNetworkReply::finished
+          , reply
+          , &QNetworkReply::deleteLater
+     );
+}
+
+
+void Weather::fetchWeather( double latitude, double longitude )
+{
+     static const auto apiKey = "bd5e378503939ddaee76f12ad7a97608";
+
+     QUrlQuery query;
+     query.addQueryItem( "lat", QString::number( latitude ) );
+     query.addQueryItem( "lon", QString::number( longitude ) );
+     query.addQueryItem( "appid", apiKey );
+
+     QUrl url{ "https://api.openweathermap.org/data/2.5/weather" };
+     url.setQuery( query );
+
+     const auto reply = network_->get( QNetworkRequest{ url } );
+
+     connect(
+          reply
+          , &QNetworkReply::readyRead
+          , [ reply, this ]
+          {
+               qDebug().noquote() << reply->readAll();
+          }
+     );
+
+     connect(
+          reply
+          , &QNetworkReply::errorOccurred
+          , [ reply, this ]
+          {
+               qDebug() << "Error: " + reply->errorString();
+          }
+     );
+
+     connect(
           reply
           , &QNetworkReply::finished
           , reply

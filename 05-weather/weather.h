@@ -18,8 +18,11 @@ class Weather : public QWidget
 public:
      explicit Weather( QWidget* parent = nullptr );
 
+public Q_SLOTS:
+     void fetchWeather( double lat, double lon );
+
 private:
-     QNetworkAccessManager* net_;
+     QNetworkAccessManager* network_;
      QLabel* latitude_;
      QLabel* longitude_;
      QLabel* location_;
