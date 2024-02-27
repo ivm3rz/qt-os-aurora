@@ -6,8 +6,7 @@
 int main( int argc, char *argv[] )
 {
      QApplication app{ argc,argv };
-     Weather widget;
-     widget.resize( 320, 240 );
-     widget.show();
+     Weather weather;
+     weather.show();
      return app.exec();
 }
