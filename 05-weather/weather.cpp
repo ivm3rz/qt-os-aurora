@@ -147,7 +147,7 @@ void Weather::fetchIcon( const QString& icon )
 {
      static const QString url = "https://openweathermap.org/img/wn/";
 
-     const auto reply = network_->get( QNetworkRequest{ url + icon + ".png" } );
+     const auto reply = network_->get( QNetworkRequest{ url + icon + "@2x.png" } );
 
      connect(
           reply
