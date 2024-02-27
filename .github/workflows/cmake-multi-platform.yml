@@ -57,8 +57,7 @@ jobs:
       uses: MarkusJx/install-boost@v2.4.5
       with:
         boost_version: 1.84.0
-        link: shared
-        toolset: ${{ matrix.c_compiler }}
+        toolset: ${{ matrix.toolset }}
     
     - name: Install Qt
       uses: jurplel/install-qt-action@v3
