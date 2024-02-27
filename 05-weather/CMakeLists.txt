@@ -4,6 +4,8 @@ find_package(Qt5 COMPONENTS Network REQUIRED)
 
 add_executable(${PROJECT_NAME}
      main.cpp
+     weather.h
+     weather.cpp
 )
 
 target_link_libraries(${PROJECT_NAME}
@@ -11,9 +13,8 @@ target_link_libraries(${PROJECT_NAME}
      Qt::Network
 )
 
-# # Включаем Qt-кодогенерацию
-# set_target_properties(${PROJECT_NAME}
-#      PROPERTIES
-#      AUTOMOC ON
-#      AUTOUIC ON
-# )
+# Включаем Qt-кодогенерацию
+set_target_properties(${PROJECT_NAME}
+     PROPERTIES
+     AUTOMOC ON
+)
