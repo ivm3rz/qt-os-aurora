@@ -27,6 +27,8 @@ Weather::Weather( QWidget* parent )
      , feelsLike_{ new QLabel( this ) }
      , humidity_{ new QLabel( this ) }
      , pressure_{ new QLabel( this ) }
+     , timestamp_{ new QLabel( this ) }
+     , link_{ new QLabel( this ) }
 {
      setWindowTitle( tr( "Weather⛅" ) );
      setStyleSheet( "background-color: #7e7f83;" );
@@ -44,13 +46,26 @@ Weather::Weather( QWidget* parent )
      weatherLayout->addRow( tr( "Pressure:" ), pressure_ );
      weatherLayout->setFormAlignment( Qt::AlignVCenter );
 
-     const auto mainLayout = new QHBoxLayout( this );
-     mainLayout->addLayout( locLayout );
-     mainLayout->addWidget( icon_ );
-     mainLayout->addWidget( description_ );
-     mainLayout->addLayout( weatherLayout );
-
-     description_->setStyleSheet( "font: 18pt;" );
+     const auto hboxLayout = new QHBoxLayout;
+     hboxLayout->addLayout( locLayout );
+     hboxLayout->addWidget( icon_ );
+     hboxLayout->addWidget( description_ );
+     hboxLayout->addLayout( weatherLayout );
+     {
+          description_->setStyleSheet( "font: 18pt;" );
+     }
+     const auto statusLayout = new QHBoxLayout;
+     statusLayout->addWidget( timestamp_ );
+     statusLayout->addWidget( link_ );
+     {
+          link_->setText( R"html(<a href="https://openweathermap.org/current">OpenWeatherMap</a>)html" );
+          link_->setTextFormat( Qt::RichText );
+          link_->setOpenExternalLinks( true );
+     }
+     const auto mainLayout = new QVBoxLayout( this );
+     mainLayout->addLayout( hboxLayout );
+     mainLayout->addItem( new QSpacerItem( 0, 0, QSizePolicy::Ignored, QSizePolicy::MinimumExpanding ) );
+     mainLayout->addLayout( statusLayout );
 
      fetchGeoPosition();
 }
@@ -137,7 +152,10 @@ void Weather::fetchWeather( double latitude, double longitude )
                temperature_->setText( QString( "%1 °C" ).arg( weather[ "temp" ].toDouble() ) );
                feelsLike_->setText( QString( "%1 °C" ).arg( weather[ "feels_like" ].toDouble() ) );
                humidity_->setText( QString( "%1 %" ).arg( weather[ "humidity" ].toInt() ) );
-               pressure_->setText( QString( "%1 hPa" ).arg( weather[ "pressure" ].toInt() ) );
+               pressure_->setText( tr( "%1 hPa" ).arg( weather[ "pressure" ].toInt() ) );
+               QDateTime dt;
+               dt.setSecsSinceEpoch( document[ "dt" ].toInt() );
+               timestamp_->setText( tr( "As of " ) + dt.toString() );
           }
      );
 
@@ -151,6 +169,7 @@ void Weather::fetchWeather( double latitude, double longitude )
                feelsLike_->setText( "--" );
                humidity_->setText( "-- " );
                pressure_->setText( "-- " );
+               timestamp_->setText( "--" );
           }
      );
 

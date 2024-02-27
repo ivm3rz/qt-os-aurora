@@ -34,4 +34,6 @@ private:
      QLabel* feelsLike_;
      QLabel* humidity_;
      QLabel* pressure_;
+     QLabel* timestamp_;
+     QLabel* link_;
 };
