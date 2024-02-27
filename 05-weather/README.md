@@ -2,7 +2,7 @@
 
 ## Open Weather Map
 
-Приложение для погодных сведений через [**OpenWeatherMap
+Приложение для отображения погодных сведений, получаемых через [**OpenWeatherMap
 API**](https://openweathermap.org/current). Графический интерфейс реализован с
 использованием [**QtWidgets**](https://doc.qt.io/qt-5/qtwidgets-index.html).
 Ключ API взят из
