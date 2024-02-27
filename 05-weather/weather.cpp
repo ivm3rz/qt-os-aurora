@@ -23,8 +23,13 @@ Weather::Weather( QWidget* parent )
      , location_{ new QLabel( this ) }
      , icon_{ new QLabel( this ) }
      , description_{ new QLabel( this ) }
+     , temperature_{ new QLabel( this ) }
+     , feelsLike_{ new QLabel( this ) }
+     , humidity_{ new QLabel( this ) }
+     , pressure_{ new QLabel( this ) }
 {
      setWindowTitle( tr( "Weather⛅" ) );
+     setStyleSheet( "background-color: #7e7f83;" );
 
      const auto locLayout = new QFormLayout;
      locLayout->addRow( tr( "Latitude:" ), latitude_ );
@@ -32,10 +37,18 @@ Weather::Weather( QWidget* parent )
      locLayout->addRow( tr( "Location:" ), location_ );
      locLayout->setFormAlignment( Qt::AlignVCenter );
 
+     const auto weatherLayout = new QFormLayout;
+     weatherLayout->addRow( tr( "Temperature:" ), temperature_ );
+     weatherLayout->addRow( tr( "Feels Like:" ), feelsLike_ );
+     weatherLayout->addRow( tr( "Humidity:" ), humidity_ );
+     weatherLayout->addRow( tr( "Pressure:" ), pressure_ );
+     weatherLayout->setFormAlignment( Qt::AlignVCenter );
+
      const auto mainLayout = new QHBoxLayout( this );
      mainLayout->addLayout( locLayout );
      mainLayout->addWidget( icon_ );
      mainLayout->addWidget( description_ );
+     mainLayout->addLayout( weatherLayout );
 
      description_->setStyleSheet( "font: 18pt;" );
 
@@ -120,6 +133,11 @@ void Weather::fetchWeather( double latitude, double longitude )
                          break;
                     }
                }
+               const auto& weather = document[ "main" ].toObject();
+               temperature_->setText( QString( "%1 °C" ).arg( weather[ "temp" ].toDouble() ) );
+               feelsLike_->setText( QString( "%1 °C" ).arg( weather[ "feels_like" ].toDouble() ) );
+               humidity_->setText( QString( "%1 %" ).arg( weather[ "humidity" ].toInt() ) );
+               pressure_->setText( QString( "%1 hPa" ).arg( weather[ "pressure" ].toInt() ) );
           }
      );
 
@@ -129,6 +147,10 @@ void Weather::fetchWeather( double latitude, double longitude )
           , [ reply, this ]
           {
                qDebug() << "Error: " + reply->errorString();
+               temperature_->setText( "--" );
+               feelsLike_->setText( "--" );
+               humidity_->setText( "-- " );
+               pressure_->setText( "-- " );
           }
      );
 

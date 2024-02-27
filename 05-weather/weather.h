@@ -30,4 +30,8 @@ private:
      QLabel* location_;
      QLabel* icon_;
      QLabel* description_;
+     QLabel* temperature_;
+     QLabel* feelsLike_;
+     QLabel* humidity_;
+     QLabel* pressure_;
 };
