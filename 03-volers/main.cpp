@@ -33,7 +33,7 @@ auto date( const QStringList& row )
      const auto month = row.at( Month ).toInt();
      const auto day = row.at( Day ).toInt();
 
-     return month and day
+     return month && day
           ? QDate{ year, month, day }.toString( Qt::ISODate )
           : year >= 0
                ? QString::number( year ) + QObject::tr(" г." )
