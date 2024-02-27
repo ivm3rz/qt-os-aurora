@@ -36,4 +36,5 @@ private:
      QLabel* pressure_;
      QLabel* timestamp_;
      QLabel* link_;
+     QTimer* updateTimer_;
 };

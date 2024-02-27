@@ -3,6 +3,7 @@
 #include <QtCore/QJsonArray>
 #include <QtCore/QJsonObject>
 #include <QtCore/QJsonDocument>
+#include <QtCore/QTimer>
 #include <QtCore/QUrlQuery>
 #include <QtWidgets/QLabel>
 #include <QtWidgets/QWidget>
@@ -12,6 +13,7 @@
 #include <QtNetwork/QNetworkRequest>
 
 
+static const auto updateTimeout = 60 * 1000;
 static const auto apiKey = "bd5e378503939ddaee76f12ad7a97608";
 
 
@@ -29,6 +31,7 @@ Weather::Weather( QWidget* parent )
      , pressure_{ new QLabel( this ) }
      , timestamp_{ new QLabel( this ) }
      , link_{ new QLabel( this ) }
+     , updateTimer_{ new QTimer( this ) }
 {
      setWindowTitle( tr( "Weather⛅" ) );
      setStyleSheet( "background-color: #7e7f83;" );
@@ -91,6 +94,18 @@ void Weather::fetchGeoPosition()
                location_->setText( document[ "country" ].toString() + "/" + document[ "city" ].toString() );
 
                fetchWeather( latitude, longitude );
+
+               connect(
+                    updateTimer_
+                    , &QTimer::timeout
+                    , [ latitude, longitude, this ]
+                    {
+                         qDebug() << QDateTime::currentSecsSinceEpoch();
+                         fetchWeather( latitude, longitude );
+                    }
+               );
+
+               updateTimer_->start( updateTimeout );
           }
      );
 
