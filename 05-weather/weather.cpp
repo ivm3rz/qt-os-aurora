@@ -30,16 +30,14 @@ Weather::Weather( QWidget* parent )
      locLayout->addRow( tr( "Latitude:" ), latitude_ );
      locLayout->addRow( tr( "Longitude:" ), longitude_ );
      locLayout->addRow( tr( "Location:" ), location_ );
+     locLayout->setFormAlignment( Qt::AlignVCenter );
 
-     const auto weatherLayout = new QHBoxLayout;
-     weatherLayout->addWidget( icon_ );
-     weatherLayout->addWidget( description_ );
-     description_->setStyleSheet( "font: 18pt;" );
-
-     const auto mainLayout = new QVBoxLayout( this );
+     const auto mainLayout = new QHBoxLayout( this );
      mainLayout->addLayout( locLayout );
-     mainLayout->addLayout( weatherLayout );
-     mainLayout->addItem( new QSpacerItem( 0, 0, QSizePolicy::Ignored, QSizePolicy::MinimumExpanding ) );
+     mainLayout->addWidget( icon_ );
+     mainLayout->addWidget( description_ );
+
+     description_->setStyleSheet( "font: 18pt;" );
 
      fetchGeoPosition();
 }
