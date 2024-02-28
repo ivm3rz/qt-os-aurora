@@ -1,4 +1,5 @@
 ## Практические задания, выполняемые в рамках курса [Разработка прикладного ПО на Qt и ОС Аврора](https://otus.ru/lessons/qt-aurora/)
+[![CMake on multiple platforms](https://github.com/ivm3rz/qt-os-aurora/actions/workflows/cmake-multi-platform.yml/badge.svg)](https://github.com/ivm3rz/qt-os-aurora/actions/workflows/cmake-multi-platform.yml)
 
 ### 1. [Разработка базового калькулятора](01-calculator)
 
