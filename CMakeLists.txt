@@ -15,6 +15,34 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
 include(FetchContent)
 
+if(${CMAKE_SYSTEM_NAME} STREQUAL Linux)
+     if(CMAKE_VERSION VERSION_LESS 3.22)
+          include(os_release_info)
+
+          get_os_release_info(
+               OS_RELEASE_ID
+               OS_RELEASE_VERSION
+               OS_RELEASE_CODENAME
+          )
+          message(STATUS "Distrib: ${OS_RELEASE_ID}-${OS_RELEASE_VERSION} (${OS_RELEASE_CODENAME})")
+     else()
+          cmake_host_system_information(
+               RESULT PRETTY_NAME
+               QUERY DISTRIB_PRETTY_NAME
+          )
+          message(STATUS "Distrib: ${PRETTY_NAME}")
+
+          cmake_host_system_information(
+               RESULT DISTRO
+               QUERY DISTRIB_INFO
+          )
+
+          foreach(VAR IN LISTS DISTRO)
+               message(STATUS "${VAR}=`${${VAR}}`")
+          endforeach()
+     endif()
+endif()
+
 find_package(Qt5 COMPONENTS Widgets REQUIRED)
 message(STATUS "Found Qt widgets: ${Qt5Widgets_VERSION}")
 
