@@ -17,7 +17,7 @@ include(FindPkgConfig)
 
 option(USE_SAILFISHAPP "Использовать библиотеку libsailfishapp" ON)
 
-if(USE_SAILFISH_APP)
+if(USE_SAILFISHAPP)
      pkg_search_module(SAILFISH sailfishapp REQUIRED)
 else()
      pkg_search_module(AURORA auroraapp REQUIRED)
@@ -25,9 +25,9 @@ endif()
 
 add_executable(${PROJECT_NAME} main.cpp)
 
-target_compile_definitions(${PROJECT_NAME} PRIVATE
-     $<$<BOOL:${USE_SAILFISHAPP}:USE_SAILFISH_APP>
-)
+if(USE_SAILFISHAPP)
+     target_compile_definitions(${PROJECT_NAME} PRIVATE USE_SAILFISH_APP)
+endif()
 
 target_compile_options(${PROJECT_NAME} PRIVATE
      $<$<OR:$<CXX_COMPILER_ID:Clang>,$<CXX_COMPILER_ID:AppleClang>,$<CXX_COMPILER_ID:GNU>>:
@@ -41,13 +41,22 @@ target_include_directories(${PROJECT_NAME} PRIVATE
 )
 
 target_compile_definitions(${PROJECT_NAME} PRIVATE
-    $<$<OR:$<CONFIG:Debug>,$<CONFIG:RelWithDebInfo>>:QT_QML_DEBUG>
+     $<$<OR:$<CONFIG:Debug>,$<CONFIG:RelWithDebInfo>>:QT_QML_DEBUG>
 )
 
-target_link_libraries(${PROJECT_NAME}
-    Qt5::Quick
-    $<IF:$<BOOL:${USE_SAILFISHAPP}>,${SAILFISH_LDFLAGS},${AURORA_LDFLAGS}>
+target_link_libraries(${PROJECT_NAME} PRIVATE
+     Qt5::Quick
 )
+
+if(USE_SAILFISHAPP)
+     target_link_libraries(${PROJECT_NAME} PRIVATE
+          ${SAILFISH_LDFLAGS}
+     )
+else()
+     target_link_libraries(${PROJECT_NAME} PRIVATE
+          ${AURORA_LDFLAGS}
+     )
+endif()
 
 install(
      TARGETS ${PROJECT_NAME}
