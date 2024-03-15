@@ -33,6 +33,7 @@ Page {
 
         TextField {
             id: login
+            label: qsTr("Логин")
             placeholderText: qsTr("Введите логин")
             width: parent.width
             validator: RegExpValidator {
@@ -46,11 +47,11 @@ Page {
         }
 
         Button {
-            id: register
-            text: qsTr("Зарегистрироваться")
+            id: confirm
+            text: qsTr("Далее")
             preferredWidth: Theme.buttonWidthLarge
             anchors.horizontalCenter: parent.horizontalCenter
-            onClicked: pageStack.push("SecondPage.qml")
+            onClicked: pageStack.push("AccountPage.qml")
             enabled: phone.valid && login.valid
         }
     }
