@@ -2,7 +2,7 @@
 
 ## SilicaApp
 
-Приложение, использующее модуль
+Приложение, стилизованное под [ОС Аврора](https://auroraos.ru/) и использующее модуль
 [Silica](https://developer.auroraos.ru/doc/software_development/reference/silica). 
 
 ### Cборка приложения
