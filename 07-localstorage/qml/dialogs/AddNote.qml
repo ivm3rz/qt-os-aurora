@@ -24,7 +24,7 @@ Dialog {
                label: qsTr( "Дата" )
                width: parent.width
                onClicked: {
-                    var dialog = pageStack.push("Sailfish.Silica.DatePickerDialog", { date: date })
+                    var dialog = pageStack.push( "Sailfish.Silica.DatePickerDialog", { date: date } )
                     dialog.accepted.connect(function() {
                          value = dialog.dateText
                          date = dialog.date
@@ -37,6 +37,6 @@ Dialog {
 
      Component.onCompleted: {
           datePicker.date = new Date()
-          datePicker.value = datePicker.date.toLocaleDateString(Locale.ShortFormat)
+          datePicker.value = datePicker.date.toLocaleDateString( Locale.ShortFormat )
      }
 }

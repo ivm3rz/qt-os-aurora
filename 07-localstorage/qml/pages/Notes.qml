@@ -15,7 +15,7 @@ Page {
                }
           }
           header: PageHeader {
-              title: qsTr("Список заметок")
+              title: qsTr( "Список заметок" )
           }
 
           PullDownMenu {
@@ -23,9 +23,9 @@ Page {
                MenuItem {
                     text: "Добавить заметку"
                     onClicked: {
-                         var dialog = pageStack.push(Qt.resolvedUrl("../dialogs/AddNote.qml"))
+                         var dialog = pageStack.push( Qt.resolvedUrl("../dialogs/AddNote.qml") )
                          dialog.onAccepted.connect(function() {
-                              noteModel.append({"note": dialog.note})
+                              noteModel.append({ "note": dialog.note })
                          });
                     }
                }
