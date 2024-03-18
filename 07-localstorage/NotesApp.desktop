@@ -1,0 +1,7 @@
+[Desktop Entry]
+Type=Application
+X-Nemo-Application-Type=silica-qt5
+Icon=NotesApp
+Exec=NotesApp
+Name=Notes
+Name[ru]=Заметки
