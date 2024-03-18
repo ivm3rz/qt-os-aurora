@@ -3,7 +3,8 @@ import Sailfish.Silica 1.0
 
 Dialog {
      allowedOrientations: Orientation.All
-     property string note
+     readonly property alias note: noteArea.text
+     readonly property alias date: datePicker.date
 
      Column {
           anchors.fill: parent
@@ -32,8 +33,6 @@ Dialog {
                }
           }
      }
-
-     onAccepted: note = noteArea.text
 
      Component.onCompleted: {
           datePicker.date = new Date()

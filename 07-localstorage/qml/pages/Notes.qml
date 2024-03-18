@@ -11,7 +11,8 @@ Page {
           }
           delegate: ListItem {
                Label {
-                    text: note
+                    x: Theme.horizontalPageMargin
+                    text: date.toLocaleDateString( Locale.ShortFormat ) + ": " + note
                }
           }
           header: PageHeader {
@@ -25,7 +26,7 @@ Page {
                     onClicked: {
                          var dialog = pageStack.push( Qt.resolvedUrl("../dialogs/AddNote.qml") )
                          dialog.onAccepted.connect(function() {
-                              noteModel.append({ "note": dialog.note })
+                              noteModel.append({note: dialog.note, date: dialog.date })
                          });
                     }
                }
