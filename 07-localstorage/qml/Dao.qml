@@ -10,6 +10,13 @@ QtObject {
                }
           )
      }
+
+     function getNotes(callback) {
+          database.readTransaction(function(tx) {
+               const result = tx.executeSql("SELECT date, description FROM notes")
+               callback(result.rows)
+               }
+          )
      }
 
      Component.onCompleted: {
