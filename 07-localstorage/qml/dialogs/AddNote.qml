@@ -2,8 +2,8 @@ import QtQuick 2.0
 import Sailfish.Silica 1.0
 
 Dialog {
-    readonly property alias note: noteArea.text
-    readonly property alias date: datePicker.date
+    property alias note: noteArea.text
+    property alias date: datePicker.date
 
     Column {
         anchors.fill: parent

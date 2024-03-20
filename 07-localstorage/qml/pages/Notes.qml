@@ -14,9 +14,25 @@ Page {
             id: noteModel
         }
         delegate: ListItem {
+            menu: ContextMenu {
+                MenuItem {
+                    text: qsTr("Редактировать")
+                    onClicked: {
+                        var dialog = pageStack.push(Qt.resolvedUrl("../dialogs/AddNote.qml"))
+                        dialog.note = note
+                        dialog.date = new Date(date)
+                        dialog.onAccepted.connect(function() {
+                            console.log("Update note #" + id)
+                            dao.updateNote(id, dialog.date.toISOString(), dialog.note)
+                            const index = id > 0 ? id - 1 : 0
+                            noteModel.set(index, {id: id, note: dialog.note, date: dialog.date})
+                        })
+                    }
+                }
+            }
             Label {
                 x: Theme.horizontalPageMargin
-                text: date + ": " + note
+                text: date.toLocaleDateString(Locale.ShortFormat) + ": " + note
             }
         }
         header: PageHeader {
@@ -30,8 +46,12 @@ Page {
                 onClicked: {
                     var dialog = pageStack.push(Qt.resolvedUrl("../dialogs/AddNote.qml"))
                     dialog.onAccepted.connect(function() {
-                        noteModel.append({note: dialog.note, date: dialog.date.toLocaleDateString(Locale.ShortFormat) })
-                        dao.addNote(dialog.date.toISOString(), dialog.note)
+                        const result = dao.addNote(dialog.date.toISOString(), dialog.note)
+                        const rowid = parseInt(result, 10)
+                        if(rowid) {
+                            console.log("Append note #" + rowid)
+                            noteModel.append({id: rowid, note: dialog.note, date: dialog.date})
+                        }
                     })
                 }
             }
@@ -44,7 +64,7 @@ Page {
             for (var i = 0; i < notes.length; i++) {
                 const item = notes.item(i)
                 const d = new Date(item.date)
-                noteModel.append({note: item.description, date: d.toLocaleDateString(Locale.ShortFormat)})
+                noteModel.append({id: item.rowid, note: item.description, date: d})
             }
         })
     }
