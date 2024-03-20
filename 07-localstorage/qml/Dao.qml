@@ -13,7 +13,7 @@ QtObject {
 
      function getNotes(callback) {
           database.readTransaction(function(tx) {
-               const result = tx.executeSql("SELECT date, description FROM notes")
+               const result = tx.executeSql("SELECT date, description FROM notes ORDER BY id DESC")
                callback(result.rows)
                }
           )
