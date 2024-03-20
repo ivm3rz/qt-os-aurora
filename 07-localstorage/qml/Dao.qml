@@ -6,7 +6,7 @@ QtObject {
 
      function addNote(date, description) {
           database.transaction(function(tx) {
-               tx.executeSql("INSERT INTO notes(date,description) VALUES(?, ?)", [date, description])
+               tx.executeSql("INSERT INTO notes(date, description) VALUES(?, ?)", [date, description])
                }
           )
      }
