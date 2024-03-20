@@ -5,7 +5,7 @@ import Sailfish.Silica 1.0
 CoverBackground {
      CoverTemplate {
           Label {
-               text: qsTr( "Заметки" )
+               text: qsTr("Заметки")
                anchors.centerIn: parent
           }
      }
