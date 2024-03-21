@@ -32,12 +32,17 @@ Page {
                 MenuItem {
                     text: qsTr("Удалить")
                     onClicked: {
-                        console.log("Remove note #" + rowid + ", index: " + index)
-                        dao.removeNote(rowid)
-                        noteModel.remove(index)
+                        const remorseTimeoutMsec = 3000
+                        remorseDelete(function() {
+                            console.log("Remove note #" + rowid + ", index: " + index)
+                            dao.removeNote(rowid)
+                            noteModel.remove(index)
+                        }, remorseTimeoutMsec
+                        )
                     }
                 }
             }
+
             Label {
                 font.pixelSize: Theme.fontSizeSmall
                 text: date.toLocaleDateString(Locale.ShortFormat) + ": " + note
@@ -72,6 +77,8 @@ Page {
                 }
             }
         }
+
+        VerticalScrollDecorator {}
     }
 
     Component.onCompleted: {
