@@ -15,7 +15,7 @@ Dialog {
 
         TextArea {
             id: noteArea
-            placeholderText: "Введите заметку"
+            placeholderText: qsTr("Введите заметку")
         }
 
         ValueButton {
@@ -30,11 +30,22 @@ Dialog {
                     date = dialog.date
                 })
             }
+
+            function shortDate() {
+                return date.toLocaleDateString(Locale.ShortFormat)
+            }
+        }
+    }
+
+    Connections {
+        target: datePicker
+        onDateChanged: {
+            datePicker.value = datePicker.shortDate()
         }
     }
 
     Component.onCompleted: {
         datePicker.date = new Date()
-        datePicker.value = datePicker.date.toLocaleDateString(Locale.ShortFormat)
+        datePicker.value = datePicker.shortDate()
     }
 }
