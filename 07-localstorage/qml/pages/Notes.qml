@@ -24,7 +24,7 @@ Page {
                         dialog.onAccepted.connect(function() {
                             console.log("Update note #" + id)
                             dao.updateNote(id, dialog.date.toISOString(), dialog.note)
-                            const index = id > 0 ? id - 1 : 0
+                            const index = id > 0 ? id - 1 : 0 // Нумерация индексов модели начинается с 0
                             noteModel.set(index, {id: id, note: dialog.note, date: dialog.date})
                         })
                     }
