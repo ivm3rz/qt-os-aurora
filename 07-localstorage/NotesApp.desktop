@@ -5,3 +5,8 @@ Icon=NotesApp
 Exec=NotesApp
 Name=Notes
 Name[ru]=Заметки
+
+[X-Application]
+Permissions=
+OrganizationName=com.github
+ApplicationName=NotesApp
