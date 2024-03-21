@@ -31,8 +31,15 @@ Page {
                 }
             }
             Label {
-                x: Theme.horizontalPageMargin
                 text: date.toLocaleDateString(Locale.ShortFormat) + ": " + note
+                truncationMode: TruncationMode.Fade
+                anchors {
+                    left: parent.left
+                    leftMargin: Theme.horizontalPageMargin
+                    right: parent.right
+                    rightMargin: Theme.horizontalPageMargin
+                    verticalCenter: parent.verticalCenter
+                }
             }
         }
         header: PageHeader {
