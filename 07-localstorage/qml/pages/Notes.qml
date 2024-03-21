@@ -22,15 +22,24 @@ Page {
                         dialog.note = note
                         dialog.date = new Date(date)
                         dialog.onAccepted.connect(function() {
-                            console.log("Update note #" + id)
-                            dao.updateNote(id, dialog.date.toISOString(), dialog.note)
-                            const index = id > 0 ? id - 1 : 0 // Нумерация индексов модели начинается с 0
-                            noteModel.set(index, {id: id, note: dialog.note, date: dialog.date})
+                            console.log("Update note #" + rowid + ", index: " + index)
+                            dao.updateNote(rowid, dialog.date.toISOString(), dialog.note)
+                            noteModel.set(index, {rowid: rowid, note: dialog.note, date: dialog.date})
                         })
+                    }
+                }
+
+                MenuItem {
+                    text: qsTr("Удалить")
+                    onClicked: {
+                        console.log("Remove note #" + rowid + ", index: " + index)
+                        dao.removeNote(rowid)
+                        noteModel.remove(index)
                     }
                 }
             }
             Label {
+                font.pixelSize: Theme.fontSizeSmall
                 text: date.toLocaleDateString(Locale.ShortFormat) + ": " + note
                 truncationMode: TruncationMode.Fade
                 anchors {
@@ -57,7 +66,7 @@ Page {
                         const rowid = parseInt(result, 10)
                         if(rowid) {
                             console.log("Append note #" + rowid)
-                            noteModel.append({id: rowid, note: dialog.note, date: dialog.date})
+                            noteModel.append({rowid: rowid, note: dialog.note, date: dialog.date})
                         }
                     })
                 }
@@ -71,7 +80,7 @@ Page {
             for (var i = 0; i < notes.length; i++) {
                 const item = notes.item(i)
                 const d = new Date(item.date)
-                noteModel.append({id: item.rowid, note: item.description, date: d})
+                noteModel.append({rowid: item.rowid, note: item.description, date: d})
             }
         })
     }

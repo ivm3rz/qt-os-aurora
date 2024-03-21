@@ -16,13 +16,23 @@ QtObject {
     }
 
     function updateNote(id, date, description) {
-        var affectedRows = 0
+        var count = 0
         database.transaction(function(tx) {
             const result = tx.executeSql("UPDATE notes SET date = ?, description = ? WHERE rowid = ?", [date, description, id])
-            affectedRows = result.affectedRows
+            count = result.affectedRows
             }
         )
-        return affectedRows
+        return count
+    }
+
+    function removeNote(id) {
+        var count = 0
+        database.transaction(function(tx) {
+            const result = tx.executeSql("DELETE FROM notes WHERE rowid = ?", [id])
+            count = result.affectedRows
+            }
+        )
+        return count
     }
 
     function getNotes(callback) {
