@@ -65,8 +65,8 @@ Page {
                         const result = dao.addNote(dialog.date.toISOString(), dialog.note)
                         const rowid = parseInt(result, 10)
                         if(rowid) {
-                            console.log("Append note #" + rowid)
-                            noteModel.append({rowid: rowid, note: dialog.note, date: dialog.date})
+                            console.log("Insert note #" + rowid)
+                            noteModel.insert(0, {rowid: rowid, note: dialog.note, date: dialog.date})
                         }
                     })
                 }
