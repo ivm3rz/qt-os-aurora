@@ -27,7 +27,7 @@ Page {
             }
             EnterKey.enabled: !errorHighlight
             EnterKey.iconSource: "image://theme/icon-m-enter-next"
-            EnterKey.onClicked: console.log("Enter phone " + text)
+            EnterKey.onClicked: login.focus = true
             readonly property bool valid: text.length && !errorHighlight
         }
 
@@ -42,7 +42,7 @@ Page {
             inputMethodHints: Qt.ImhNoAutoUppercase
             EnterKey.enabled: !errorHighlight
             EnterKey.iconSource: "image://theme/icon-m-enter-next"
-            EnterKey.onClicked: console.log("Enter login " + text)
+            EnterKey.onClicked: focus = false
             readonly property bool valid: text.length && !errorHighlight
         }
 

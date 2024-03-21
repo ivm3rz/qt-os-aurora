@@ -22,7 +22,7 @@ Page {
             inputMethodHints: Qt.ImhNoAutoUppercase
             EnterKey.enabled: !errorHighlight
             EnterKey.iconSource: "image://theme/icon-m-enter-next"
-            EnterKey.onClicked: console.log("Enter name " + text)
+            EnterKey.onClicked: surname.focus = true
         }
 
         TextField {
@@ -33,7 +33,7 @@ Page {
             inputMethodHints: Qt.ImhNoAutoUppercase
             EnterKey.enabled: !errorHighlight
             EnterKey.iconSource: "image://theme/icon-m-enter-next"
-            EnterKey.onClicked: console.log("Enter name " + text)
+            EnterKey.onClicked: email.focus = true
         }
 
         TextField {
@@ -47,7 +47,7 @@ Page {
             inputMethodHints: Qt.ImhEmailCharactersOnly
             EnterKey.enabled: !errorHighlight
             EnterKey.iconSource: "image://theme/icon-m-enter-next"
-            EnterKey.onClicked: console.log("Enter login " + text)
+            EnterKey.onClicked: focus = false
             readonly property bool valid: text.length && !errorHighlight
         }
 
