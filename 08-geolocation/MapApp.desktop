@@ -1,0 +1,11 @@
+[Desktop Entry]
+Type=Application
+X-Nemo-Application-Type=silica-qt5
+Icon=MapApp
+Exec=MapApp
+Name=MapApp
+
+[X-Application]
+Permissions=Internet;Location
+OrganizationName=com.github
+ApplicationName=MapApp
