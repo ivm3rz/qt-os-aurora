@@ -10,8 +10,25 @@ Page {
     Map {
         id: map
         anchors.fill: parent
+        plugin: Plugin {
+            id: mapPlugin
 
-        // ToDo: define plugin to work with OSM
+            name: "webtiles"
+            allowExperimental: false
+
+            PluginParameter {
+                name: "webtiles.scheme"
+                value: "https"
+            }
+            PluginParameter {
+                name: "webtiles.host"
+                value: "tile.openstreetmap.org"
+            }
+            PluginParameter {
+                name: "webtiles.path"
+                value: "/${z}/${x}/${y}.png"
+            }
+        }
         // ToDo: enable gesture recognition
         // ToDo: bind zoomLevel property to slider value
 
@@ -19,7 +36,7 @@ Page {
 
         // ToDo: create MouseArea to handle clicks and holds
 
-        Component.onCompleted: center = QtPositioning.coordinate(55.751244, 37.618423)
+        Component.onCompleted: center = QtPositioning.coordinate(56.028238, 37.853624)
     }
     // ToDo: add a slider to control zoom level
 

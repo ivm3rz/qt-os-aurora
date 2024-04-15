@@ -8,8 +8,9 @@ Source0:    %{name}-%{version}.tar.bz2
 
 Requires:   sailfishsilica-qt5 >= 0.10.9
 Requires:   qt5-qtdeclarative-import-positioning
-# ToDo: add requires to use QtLocation with OSM plugin in QML
-# ToDo: add requires to use WebTiles
+Requires:   qt5-qtdeclarative-import-location
+Requires:   qt5-plugin-geoservices-webtiles
+
 BuildRequires: cmake
 
 %description
