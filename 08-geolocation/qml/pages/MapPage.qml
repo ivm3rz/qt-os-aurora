@@ -1,12 +1,10 @@
 import QtQuick 2.6
-import Sailfish.Silica 1.0
-
 import QtPositioning 5.3
 import QtLocation 5.0
 import "../assets"
+import Sailfish.Silica 1.0
 
 Page {
-    PositionSource { id: positionSource }
     Map {
         id: map
         anchors.fill: parent
@@ -29,8 +27,8 @@ Page {
                 value: "/${z}/${x}/${y}.png"
             }
         }
-        // ToDo: enable gesture recognition
-        // ToDo: bind zoomLevel property to slider value
+        gesture.enabled: true
+        zoomLevel: slider.value
 
         // ToDo: add binding of the map center to the position coordinate
 
@@ -38,7 +36,15 @@ Page {
 
         Component.onCompleted: center = QtPositioning.coordinate(56.028238, 37.853624)
     }
-    // ToDo: add a slider to control zoom level
+
+    Slider {
+        id: slider
+        minimumValue: map.minimumZoomLevel
+        maximumValue: map.maximumZoomLevel
+        value: 11
+        width: parent.width
+        y: parent.height - slider.height
+    }
 
     // ToDo: add a component corresponding to MapQuickCircle
 
