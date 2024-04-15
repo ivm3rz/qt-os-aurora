@@ -1,11 +1,35 @@
 import QtQuick 2.6
 import QtPositioning 5.3
 import QtLocation 5.0
-import "../assets"
 import Sailfish.Silica 1.0
 
 Page {
+    PositionSource {
+        id: positionSource
+        active: true
+    }
+    Binding {
+        target: map
+        property: "center"
+        value: positionSource.position.coordinate
+        when: positionSource.position.coordinate.isValid
+    }
     Map {
+        MapQuickItem {
+            id: footprints
+            property alias diameter: image.width
+            coordinate: positionSource.position.coordinate
+            sourceItem: Image {
+                id: image
+                source: Qt.resolvedUrl("../icons/footprints.svg")
+                width: 48 * Theme.pixelRatio
+                height: width
+                fillMode: Image.PreserveAspectFit
+            }
+            anchorPoint.x: image.width / 2
+            anchorPoint.y: image.height / 2
+        }
+
         id: map
         anchors.fill: parent
         plugin: Plugin {
@@ -29,12 +53,6 @@ Page {
         }
         gesture.enabled: true
         zoomLevel: slider.value
-
-        // ToDo: add binding of the map center to the position coordinate
-
-        // ToDo: create MouseArea to handle clicks and holds
-
-        Component.onCompleted: center = QtPositioning.coordinate(56.028238, 37.853624)
     }
 
     Slider {
