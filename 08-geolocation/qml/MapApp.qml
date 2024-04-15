@@ -9,7 +9,7 @@ ApplicationWindow {
                CoverPlaceholder {
                     text: qsTr("Карта")
                     icon {
-                         source: Qt.resolvedUrl(qsTr("icons/%1.svg").arg(Qt.applicationName))
+                         source: Qt.resolvedUrl(qsTr("icons/%1.svg").arg(Qt.application.name))
                          sourceSize {
                               width: icon.width
                               height: icon.height
