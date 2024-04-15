@@ -69,6 +69,11 @@ install(
 )
 
 install(
+     DIRECTORY nmea
+     DESTINATION share/${PROJECT_NAME}
+)
+
+install(
      FILES ${PROJECT_NAME}.desktop
      DESTINATION share/applications
 )

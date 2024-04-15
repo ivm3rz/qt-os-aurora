@@ -6,6 +6,7 @@ import Sailfish.Silica 1.0
 Page {
     PositionSource {
         id: positionSource
+        nmeaSource: qsTr("/usr/share/%1/nmea/path.nmea").arg(Qt.application.name)
         active: true
     }
     Binding {
