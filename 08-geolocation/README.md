@@ -45,19 +45,21 @@ Slider {
 - Проверить, что карта центрируется на актуальных координатах, можно её
   перетаскивать и управлять масштабом с помощью слайдера.
 
-##### Часть 3: Добавление элемента для отображения текущего местоположения.
+##### Раздел 3: Добавление элемента для отображения текущего местоположения.
 
-- В директории `assets` создать компонент `Footprints`:
+- Cоздать визуальный компонент
+[`MapQuickItem`](https://doc.qt.io/archives/qt-5.6/qml-qtlocation-mapquickitem.html)
+c идентификатором `footprints`:
 ```qml
 import QtQuick 2.6
 import QtLocation 5.0
 
 MapQuickItem {
-    property alias diameter: image.width
+    id: footprints
     sourceItem: Image {
         id: image
         source: Qt.resolvedUrl("graphics/footprints.svg")
-        width: objectSize
+        width: ???
         height: width
         fillMode: Image.PreserveAspectFit
     }
@@ -74,4 +76,11 @@ Math.min(map.width, map.height) / 8
 - В обработчике сигнала `Component.completed` компонента `MapPage` разместить
   добавленный элемент на карте с помощью `map.addMapItem`. 
 - Проверить, что позиция, соответствующая актуальным координатам, отображается
-  на карте. 
+  на карте.
+
+⚠️ Плагин `WebTiles` не функционирует через HTTP(S) прокси-сервер:
+```
+[W] unknown:0 - QGeoTileRequestManager: Failed to fetch tile (10,5,4) 5 times, giving up. Last error message was: 'Socket operation timed out'
+[W] unknown:0 - QGeoTileRequestManager: Failed to fetch tile (8,5,4) 5 times, giving up. Last error message was: 'Socket operation timed out'
+[W] unknown:0 - QGeoTileRequestManager: Failed to fetch tile (9,5,4) 5 times, giving up. Last error message was: 'Socket operation timed out'
+```
