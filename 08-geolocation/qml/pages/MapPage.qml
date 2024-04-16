@@ -18,12 +18,11 @@ Page {
     Map {
         MapQuickItem {
             id: footprints
-            property alias diameter: image.width
             coordinate: positionSource.position.coordinate
             sourceItem: Image {
                 id: image
                 source: Qt.resolvedUrl("../icons/footprints.svg")
-                width: 48 * Theme.pixelRatio
+                width: Math.min(map.width, map.height) / 8
                 height: width
                 fillMode: Image.PreserveAspectFit
             }
@@ -64,8 +63,4 @@ Page {
         width: parent.width
         y: parent.height - slider.height
     }
-
-    // ToDo: add a component corresponding to MapQuickCircle
-
-    // ToDo: add item at the current position
 }
