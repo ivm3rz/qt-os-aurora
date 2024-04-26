@@ -11,7 +11,7 @@ set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
-find_package(Qt5 COMPONENTS Core Network Qml Gui Quick REQUIRED)
+find_package(Qt5 COMPONENTS Core Network Qml Gui Quick LinguistTools REQUIRED)
 
 include(FindPkgConfig)
 
@@ -19,11 +19,16 @@ option(USE_SAILFISHAPP "Использовать библиотеку libsailfis
 
 if(USE_SAILFISHAPP)
      pkg_search_module(SAILFISH sailfishapp REQUIRED)
+     pkg_search_module(SAILFISH sailfishapp_i18n REQUIRED)
 else()
      pkg_search_module(AURORA auroraapp REQUIRED)
+     pkg_search_module(AURORA auroraapp_i18n REQUIRED)
 endif()
 
-add_executable(${PROJECT_NAME} main.cpp)
+file(GLOB TS_FILES "${CMAKE_SOURCE_DIR}/*.ts")
+set_source_files_properties(${TS_FILES} PROPERTIES OUTPUT_LOCATION "${CMAKE_BINARY_DIR}/qm")
+qt5_add_translation(QM_FILES ${TS_FILES})
+add_executable(${PROJECT_NAME} main.cpp ${QM_FILES})
 
 if(USE_SAILFISHAPP)
      target_compile_definitions(${PROJECT_NAME} PRIVATE USE_SAILFISH_APP)
@@ -79,6 +84,16 @@ foreach(_size 86x86 108x108 128x128 172x172)
           DESTINATION share/icons/hicolor/${_size}/apps
      )
 endforeach()
+
+foreach(qm_file IN LISTS QM_FILES)
+     get_filename_component(qm_filename "${qm_file}" NAME)
+     # string(REPLACE "${short_name}" "${PROJECT_NAME}" _full_filename "${_filename}")
+     install(FILES ${qm_file}
+          DESTINATION share/${PROJECT_NAME}/translations
+          RENAME ${qm_filename}
+     )
+endforeach()
+
 
 file(WRITE "${CMAKE_BINARY_DIR}/QtCreatorDeployment.txt"
      "${CMAKE_INSTALL_PREFIX}\n${CMAKE_BINARY_DIR}/${PROJECT_NAME}:bin\n")
