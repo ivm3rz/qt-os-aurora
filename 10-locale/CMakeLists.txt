@@ -26,9 +26,16 @@ else()
 endif()
 
 file(GLOB TS_FILES "${CMAKE_SOURCE_DIR}/*.ts")
-set_source_files_properties(${TS_FILES} PROPERTIES OUTPUT_LOCATION "${CMAKE_BINARY_DIR}/qm")
+set_source_files_properties(${TS_FILES}
+     PROPERTIES
+     OUTPUT_LOCATION "${CMAKE_BINARY_DIR}/qm"
+)
 qt5_add_translation(QM_FILES ${TS_FILES})
-add_executable(${PROJECT_NAME} main.cpp ${QM_FILES})
+
+add_executable(${PROJECT_NAME}
+     main.cpp
+     ${QM_FILES}
+)
 
 if(USE_SAILFISHAPP)
      target_compile_definitions(${PROJECT_NAME} PRIVATE USE_SAILFISH_APP)
@@ -87,6 +94,7 @@ endforeach()
 
 foreach(qm_file IN LISTS QM_FILES)
      get_filename_component(qm_filename "${qm_file}" NAME)
+     message(STATUS "QM file: ${qm_file} -> ${qm_filename}")
      # string(REPLACE "${short_name}" "${PROJECT_NAME}" _full_filename "${_filename}")
      install(FILES ${qm_file}
           DESTINATION share/${PROJECT_NAME}/translations
